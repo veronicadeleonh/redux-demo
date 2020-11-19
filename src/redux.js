@@ -1,3 +1,5 @@
+import { createStore } from "redux"
+
 // ACTIONS
 
 const BUY_CAKE = "BUY_CAKE"
@@ -17,12 +19,27 @@ const initialState = {
 
 // REDUCER
 
-const reducer = (state = inistialState, action) => {
+const reducer = (state = initialState, action) => {
     switch(action.type) {
         case BUY_CAKE: return {
             ...state,
-            numOfCakes: state.numOfCakes -1
+            numOfCakes: state.numOfCakes - 1
         }
         default: return state
     }
 }
+
+// STORE
+
+ export const store = createStore(
+    reducer,
+    initialState,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+
+console.log("Initial state", store.getState())
+const unsubscribe = store.subscribe(() => console.log("Updated state", store.getState()))
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+unsubscribe()
