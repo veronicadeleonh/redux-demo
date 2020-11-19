@@ -1,6 +1,10 @@
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { combineReducers } from "redux"
-
+import logger from 'redux-logger'
+import { createLogger } from 'redux-logger'
+//import { composeWithDevTools } from 'redux-devtools-extension'
+//import thunk from 'redux-thunk'
+ 
 // ACTIONS
 
 const BUY_CAKE = "BUY_CAKE"
@@ -67,17 +71,20 @@ const rootReducer = combineReducers({
     iceCream: iceCreamReducer
 })
 
+
 // STORE
 
  export const store = createStore(
     rootReducer,
   //  initialCakeState,
   //  initialIceCreamState,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(logger)
+ //  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 
+    
 console.log("Initial state", store.getState())
-const unsubscribe = store.subscribe(() => console.log("Updated state", store.getState()))
+const unsubscribe = store.subscribe(() => {})
 store.dispatch(buyCake())
 store.dispatch(buyCake())
 store.dispatch(buyCake())
